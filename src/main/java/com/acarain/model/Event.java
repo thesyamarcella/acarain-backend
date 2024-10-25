@@ -1,17 +1,16 @@
 package com.acarain.model;
 
-import lombok.Data;
+import com.fasterxml.jackson.annotation.JsonBackReference;
 import jakarta.persistence.*;
+import lombok.Data;
+
 import java.time.LocalDateTime;
 import java.util.List;
-
-import com.fasterxml.jackson.annotation.JsonBackReference;
 
 @Entity
 @Table(name = "events")
 @Data
 public class Event {
-
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Long id;
@@ -20,40 +19,14 @@ public class Event {
     private LocalDateTime dateTime;
     private String location;
     private String description;
-    private Double ticketPrice;
-    private Integer ticketQuantity;
+    private Double ticketPrice; 
+    private Integer ticketQuantity; 
 
-    @JsonBackReference
+    // @JsonBackReference
     @ManyToOne(fetch = FetchType.LAZY)
     @JoinColumn(name = "organizer_id", nullable = false)
     private User organizer;
 
-    public Long getOrganizerId() {
-        return organizer != null ? organizer.getId() : null;
-    }
-    
-    public String getOrganizerName() {
-        return organizer != null ? organizer.getName() : null;
-    }
-
-    @Enumerated(EnumType.STRING)
-    private TicketType ticketType;
-
-    @Enumerated(EnumType.STRING)
-    private EventStatus status;
-
-    public enum TicketType {
-        GENERAL,
-        VIP
-    }
-
-    public enum EventStatus {
-        UPCOMING,
-        CANCELLED,
-        COMPLETED
-    }
-
     @OneToMany(mappedBy = "event", cascade = CascadeType.ALL, orphanRemoval = true)
     private List<Ticket> tickets;
-
 }
