@@ -3,6 +3,7 @@ package com.acarain.model;
 import lombok.Data;
 import jakarta.persistence.*;
 import java.time.LocalDateTime;
+import java.util.List;
 
 import com.fasterxml.jackson.annotation.JsonBackReference;
 
@@ -51,5 +52,8 @@ public class Event {
         CANCELLED,
         COMPLETED
     }
+
+    @OneToMany(mappedBy = "event", cascade = CascadeType.ALL, orphanRemoval = true)
+    private List<Ticket> tickets;
 
 }
