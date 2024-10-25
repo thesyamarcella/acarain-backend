@@ -1,8 +1,5 @@
 package com.acarain.model;
 
-import com.fasterxml.jackson.annotation.JsonManagedReference;
-import com.fasterxml.jackson.annotation.JsonBackReference;
-
 import jakarta.persistence.*;
 import lombok.Data;
 
@@ -10,16 +7,15 @@ import lombok.Data;
 @Table(name = "tickets")
 @Data
 public class Ticket {
-
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Long id;
 
+    private String ticketType;
     private Double price;
-    private String type; 
+    private Integer quantity;
 
     @ManyToOne(fetch = FetchType.LAZY)
     @JoinColumn(name = "event_id", nullable = false)
-    @JsonBackReference
-    private Event event;
+    private Event event; 
 }
