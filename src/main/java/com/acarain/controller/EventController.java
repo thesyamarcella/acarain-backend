@@ -24,8 +24,9 @@ import com.acarain.service.EventService;
     }
  
     @PostMapping
-    public Event createEvent(@RequestBody Event event) {
-        return eventService.createEvent(event);
+    public ResponseEntity<Event> createEvent(@RequestBody Event event) {
+        Event newEvent = eventService.createEvent(event);
+        return ResponseEntity.ok(newEvent);
     }
  
     @PutMapping("/{id}")
